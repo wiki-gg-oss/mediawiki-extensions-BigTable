@@ -17,14 +17,6 @@
                 cell.classList.remove(HOVER_CLASS);
             };
         }
-        // cell.addEventListener('mouseleave', removeHover);
-
-        // function removeHover(){
-        //     cell.removeEventListener('mouseleave', removeHover);
-        //     for(let x of table.getElementsByClassName(HOVER_CLASS)){
-        //         x.classList.remove(HOVER_CLASS);
-        //     }
-        // }
 
         hovered = Array.prototype.map.call(
             table.rows, (row) => {
@@ -44,20 +36,6 @@
             }
         };
 
-        // for(let x of table.getElementsByClassName(HOVER_CLASS)) {
-        //     console.log(x);
-        //     x.classList.remove(HOVER_CLASS);
-        // }
-
-        // for(const row of table.rows){
-        //     // skip if this row doesn't have enough cells, or if the target is a table header
-        //     if(row.cells.length < column + 1 || row.cells[column].nodeName === 'TH') { continue }
-
-        //     let cell = row.cells[column]
-
-        //     cell.classList.add(HOVER_CLASS);
-        // }
-
     }
 
     for(const table of document.querySelectorAll( '.bigtable-container > .bigtable' )) {
@@ -66,12 +44,6 @@
         table.addEventListener('mouseover', (event) => {
             updateColumnHover(event.target);
         });
-        // table.addEventListener('mouseout', () => {
-        //     if(hovered){
-        //         for (let cell of hovered) {
-        //             cell.classList.remove(HOVER_CLASS);
-        //         };
-        //     }
-        // });
+
     }
 })();

@@ -1,51 +1,3 @@
-// $( function () {
-    
-/*
-    let viewTop, viewBottom;
-
-    function isVisible(el){
-        return (
-            (el.getBoundingClientRect().bottom + window.scrollY <= viewBottom) // Bottom of element position is above window bottom position
-            &&
-            (el.getBoundingClientRect().top + window.scrollY >= viewTop) // Top of element position is below window top position
-        );
-    }
-
-    function adjustPosition(){
-        console.log('Scroll start');
-        viewTop = document.documentElement.scrollTop;
-        viewBottom = viewTop + window.innerHeight;
-        // console.log(`Top: ${viewTop}, Bottom: ${viewBottom}`);
-        for(const el of document.querySelectorAll('div.bigtable > table > tbody > tr:first-child:has(> th)')) {
-
-            if(!isVisible(el)){ continue } // skip elements that aren't in view
-
-            // $(this.closest('table')).position()
-
-            // console.log(el);
-            let parent = el.closest('table');
-            console.log(parent);
-
-
-            // $this.css({
-            //     top:parent.position.top,
-            // });
-
-            el.style.position = 'fixed';
-            el.style.top = Math.max(parent.getBoundingClientRect().top, 0) + 'px' ;
-            console.log(parent.getBoundingClientRect());
-        }
-
-        // $('#floating-edit-button').css({
-        //     top: Math.max($('#bodyContent').offset().top - $(window).scrollTop(), 100) + 'px'
-        // })
-        
-        console.log('Scroll end');
-    }
-
-    document.addEventListener('scroll', adjustPosition);
-*/
-
 ( function () {
     if(document.getElementsByClassName('bigtable').length === 0) {return}; // early return if no bigtables
 
@@ -124,6 +76,3 @@
 
     setupStickyTheads( bodyElement.querySelectorAll( '.bigtable-container > .bigtable' ) );
 } )();
-
-
-// });

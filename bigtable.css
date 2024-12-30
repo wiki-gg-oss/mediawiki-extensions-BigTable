@@ -1,33 +1,13 @@
-table {
-/*     display: table;
-    white-space: unset; */
-	/*! overflow-x:visible; */
-}
-
 .bigtable-container {
 	position:relative;
-	overflow-x:auto;
-/* 	display:flex;
-	mask-image:linear-gradient(90deg, #000000 2em calc(100% - 2em), transparent);
-	mask-size:100%;
-	mask-repeat:no-repeat; */
-/* 	mask-image:linear-gradient(90deg, transparent, #000000 2em calc(100% - 2em), transparent);
-	mask-repeat:no-repeat;
-	mask-size:100%;
-	mask-position:left center;
-	padding-left:2em; */
+	overflow-x:auto
 }
 
 .bigtable-container > .bigtable {
 	display:table;
 	white-space: unset;
 	margin-right:2em;
-/* 	position:sticky; */
 }
-
-/* div.bigtable > table > tbody > tr:first-child:has(> th) {
-	position:relative;
-} */
 
 .bigtable-sticky-thead {
 	box-shadow: 0 9px 13px -5px #0004;
@@ -36,31 +16,3 @@ table {
 	transform: translateY(calc(var(--table-header-offset) + var(--wikigg-header-height)));
 	z-index: 1;
 }
-
-/* div.bigtable > table > tbody {
-	position:sticky;
-}
-
-div.bigtable > table > tbody > tr:first-child > th {
-	position:sticky;
-} */
-
-/* div.bigtable::before {
-	position:absolute;
-	width:100%;
-	right:100%;
-	left:0;
-	top:0;
-	content:'';
-	
-}
-
-div.bigtable > table {
-	margin-right:2em;
-	left:-2em;
-}
- */
-/* .bigtable-left,
-.bigtable-right {
-	width:2em;
-} */

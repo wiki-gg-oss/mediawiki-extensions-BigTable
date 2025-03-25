@@ -1,0 +1,30 @@
+{
+	"name": "BigTable",
+	"version": "1.0.0",
+	"author": [
+		"wiki.gg development team",
+		"Mr Pie 5",
+		"alex4401 <alex@wiki.gg>"
+	],
+	"url": "https://wiki.gg",
+	"descriptionmsg": "extbigtable-desc",
+	"license-name": "Proprietary",
+	"type": "parserhook",
+	"requires": {
+		"MediaWiki": ">= 1.43.0",
+		"platform": {
+			"php": ">= 8.1"
+		}
+	},
+	"MessagesDirs": {
+		"BigTable": [
+			"i18n"
+		]
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\BigTable\\": "src/"
+	},
+	"config_prefix": "wgBigTable",
+	"config": {},
+	"manifest_version": 2
+}

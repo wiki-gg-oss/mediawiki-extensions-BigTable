@@ -1,0 +1,25 @@
+@import './variables.less';
+
+.bigtable-wrapper {
+	position:relative;
+	overflow-x:auto
+
+    > table.bigtable {
+    	display: table;
+    	white-space: unset;
+    	margin-right:2em;
+    }
+
+    .bigtable-sticky-thead {
+    	box-shadow: 0 9px 13px -5px #0004;
+    	outline: 1px solid var(--wiki-content-border-color);
+    	position: relative;
+    	transform: translateY(calc(var(--table-header-offset) + var(--wikigg-header-height)));
+    	z-index: 1;
+    }
+    
+    tr:hover,
+    .bigtable-cell-hovered {
+        background-image:var(--bigtable-hover-background);
+    }
+}

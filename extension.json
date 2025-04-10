@@ -21,6 +21,27 @@
 			"i18n"
 		]
 	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "modules",
+		"remoteExtPath": "BigTable/modules"
+	},
+	"ResourceModules": {
+		"ext.bigtable": {
+			"dependencies": [
+				"jquery"
+			],
+			"packageFiles": [
+				"ext.bigtable/main.js",
+				"ext.bigtable/features/columnHover.js",
+				"ext.bigtable/features/stickyHeader.js"
+			]
+		},
+		"ext.bigtable.styles": {
+			"styles": [
+				"ext.bigtable.styles/main.less"
+			]
+		}
+	},
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\BigTable\\": "src/"
 	},

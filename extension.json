@@ -24,6 +24,11 @@
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\BigTable\\": "src/"
 	},
+	"OutputPipelineStages": [
+		{
+			"class": "MediaWiki\\Extension\\BigTable\\OutputTransform\\TableTransformPipelineStage"
+		}
+	],
 	"config_prefix": "wgBigTable",
 	"config": {},
 	"manifest_version": 2

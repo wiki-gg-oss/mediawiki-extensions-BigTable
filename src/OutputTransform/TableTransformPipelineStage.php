@@ -9,8 +9,8 @@ use Wikimedia\Parsoid\DOM\Document;
 
 class TableTransformPipelineStage extends ContentDOMTransformStage {
 	public function shouldRun( ParserOutput $po, ?ParserOptions $popts, array $options = [] ): bool {
-        // TODO: don't run if no bigtable in the page
-		return true;
+        $text = $po->getContentHolderText();
+		return str_contains( $text, '</table>' ) && str_contains( $text, 'bigtable' );
 	}
 
 	public function transformDOM( Document $dom, ParserOutput $po, ?ParserOptions $popts, array &$options ): Document {

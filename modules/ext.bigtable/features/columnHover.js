@@ -7,7 +7,7 @@ let hovered = null;
 
 
 function updateColumnHover( tableElement, eventTarget ) {
-    if ( !eventTarget || eventTarget.nodeName !== 'TD' ) {
+    if ( !eventTarget || eventTarget.nodeName !== 'TD' || eventTarget.classList.contains( HOVER_CLASS ) ) {
         return;
     }
 

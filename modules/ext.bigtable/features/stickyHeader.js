@@ -6,8 +6,7 @@ const
 
 
 const tables = [];
-let bodyElement = null,
-    lastStickyThead = null;
+let lastStickyThead = null;
 
 
 const updateStickyTheads = mw.util.debounce(
@@ -35,9 +34,7 @@ const updateStickyTheads = mw.util.debounce(
 
 
 module.exports = {
-    setup() {
-        bodyElement = document.getElementById( 'bodyContent' );
-    },
+    setup() {},
 
 
     init( wrapperElement, tableElement ) {

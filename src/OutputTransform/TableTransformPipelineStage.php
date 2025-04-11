@@ -8,16 +8,29 @@ use MediaWiki\Parser\ParserOutput;
 use Wikimedia\Parsoid\DOM\Document;
 
 class TableTransformPipelineStage extends ContentDOMTransformStage {
+    private const ALTERNATIVE_CLASS_REGEX = '/\b(?:article-table)\b/';
+    private const CLASS_REGEX = '/\b(?:bigtable|article-table)\b/';
+
 	public function shouldRun( ParserOutput $po, ?ParserOptions $popts, array $options = [] ): bool {
         $text = $po->getContentHolderText();
-		return str_contains( $text, '</table>' ) && str_contains( $text, 'bigtable' );
+		return str_contains( $text, '</table>' ) && preg_match( self::CLASS_REGEX, $text );
 	}
 
 	public function transformDOM( Document $dom, ParserOutput $po, ?ParserOptions $popts, array &$options ): Document {
         $hasBigTable = false;
 
         foreach ( $dom->getElementsByTagName( 'table' ) as $tableElement ) {
-            if ( !preg_match( '/\bbigtable\b/', $tableElement->getAttribute( 'class' ) ) ) {
+            $className = $tableElement->getAttribute( 'class' );
+            if ( $className === '' ) {
+                continue;
+            }
+
+            if ( preg_match( self::ALTERNATIVE_CLASS_REGEX, $className ) ) {
+                $className = "$className bigtable";
+                $tableElement->setAttribute( 'class', $className );
+            }
+
+            if ( !preg_match( '/\bbigtable\b/', $className ) ) {
                 continue;
             }
 

@@ -6,35 +6,38 @@ const
 let hovered = null;
 
 
-function updateColumnHover( tableElement, eventTarget ) {
-    if ( !eventTarget || eventTarget.nodeName !== 'TD' || eventTarget.classList.contains( HOVER_CLASS ) ) {
-        return;
-    }
+const updateColumnHover = mw.util.debounce(
+    ( tableElement, eventTarget ) => {
+        if ( !eventTarget || eventTarget.nodeName !== 'TD' || eventTarget.classList.contains( HOVER_CLASS ) ) {
+            return;
+        }
 
-    const column = eventTarget.cellIndex;
+        const column = eventTarget.cellIndex;
 
-    if ( hovered ) {
+        if ( hovered ) {
+            for ( const cellElement of hovered ) {
+                cellElement.classList.remove( HOVER_CLASS );
+            }
+        }
+
+        hovered = Array.prototype.map.call( tableElement.rows, row => {
+            let index = column,
+                cellElement = null;
+            while ( !cellElement && index >= 0 ) {
+                cellElement = row.cells[ index ];
+                index--;
+            }
+            return cellElement;
+        } );
+
         for ( const cellElement of hovered ) {
-            cellElement.classList.remove( HOVER_CLASS );
+            if ( cellElement.nodeName === 'TD' ) {
+                cellElement.classList.add( HOVER_CLASS );
+            }
         }
-    }
-
-    hovered = Array.prototype.map.call( tableElement.rows, row => {
-        let index = column,
-            cellElement = null;
-        while ( !cellElement && index >= 0 ) {
-            cellElement = row.cells[ index ];
-            index--;
-        }
-        return cellElement;
-    } );
-
-    for ( const cellElement of hovered ) {
-        if ( cellElement.nodeName === 'TD' ) {
-            cellElement.classList.add( HOVER_CLASS );
-        }
-    }
-}
+    },
+    5
+);
 
 
 module.exports = {

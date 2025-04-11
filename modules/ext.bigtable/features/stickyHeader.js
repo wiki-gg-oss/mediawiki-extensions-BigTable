@@ -21,7 +21,7 @@ const updateStickyTheads = mw.util.debounce(
             if ( bounds.top <= 0 && tableBottom >= 0 ) {
                 var theadBounds = thead.getBoundingClientRect();
                 if ( tableBottom - theadBounds.height * 3 >= 0 ) {
-                    thead.style.setProperty( '--table-header-offset', ''.concat( 0 - theadBounds.top - 1, 'px' ) );
+                    thead.style.setProperty( '--table-header-offset', `${0 - theadBounds.top - 1}px` );
                     thead.classList.add( STICKY_THEAD_CLASS );
                     lastStickyThead = thead;
                     return true;

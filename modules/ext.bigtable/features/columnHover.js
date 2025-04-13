@@ -1,5 +1,5 @@
 const
-    HOVER_CLASS = 'bigtable-cell-hovered',
+    HOVER_CLASS = 'ext-bigtable-cell-hovered',
     EXCLUSION_CLASS = 'nohover';
 
 

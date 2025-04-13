@@ -37,7 +37,7 @@ class TableTransformPipelineStage extends ContentDOMTransformStage {
             $hasBigTable = true;
 
             $wrapperElement = $dom->createElement( 'div' );
-            $wrapperElement->setAttribute( 'class', 'bigtable-wrapper' );
+            $wrapperElement->setAttribute( 'class', 'ext-bigtable-wrapper' );
             $wrapperElement->setAttribute( 'data-mw-bigtable', 'true' );
             $tableElement->replaceWith( $wrapperElement );
             $wrapperElement->append( $tableElement );

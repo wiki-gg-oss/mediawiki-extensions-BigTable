@@ -1,5 +1,5 @@
 const
-    STICKY_THEAD_CLASS = 'bigtable-sticky-thead',
+    STICKY_THEAD_CLASS = 'ext-bigtable-sticky-thead',
     EXCLUSION_CLASS = 'nosticky',
     FORCE_CLASS = 'forcesticky',
     MIN_ROWS_FOR_STICKY = 6;

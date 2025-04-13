@@ -8,6 +8,13 @@ let hovered = null;
 
 const updateColumnHover = mw.util.debounce(
     ( tableElement, eventTarget ) => {
+        // Clear all hover states
+        if ( eventTarget === null ) {
+            for ( const cellElement of tableElement.querySelectorAll( `td.${HOVER_CLASS}` ) ) {
+                cellElement.classList.remove( HOVER_CLASS );
+            }
+        }
+
         if ( !eventTarget || eventTarget.nodeName !== 'TD' || eventTarget.classList.contains( HOVER_CLASS ) ) {
             return;
         }
@@ -50,6 +57,7 @@ module.exports = {
         }
 
         tableElement.addEventListener( 'mouseover', event => updateColumnHover( tableElement, event.target ) );
+        tableElement.addEventListener( 'mouseleave', event => updateColumnHover( tableElement, null ) );
     },
 
 

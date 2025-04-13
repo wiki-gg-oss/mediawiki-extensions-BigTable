@@ -10,7 +10,7 @@ mw.hook( 'wikipage.content' ).add( $content => {
     }
 
     for ( const wrapperElement of $content.find( '[ data-mw-bigtable ]' ) ) {
-        const tableElement = wrapperElement.children[ 0 ];
+        const tableElement = wrapperElement.querySelector( ':scope > table.bigtable' );
         for ( const tableFeature of tableFeatures ) {
             tableFeature.init( wrapperElement, tableElement );
         }

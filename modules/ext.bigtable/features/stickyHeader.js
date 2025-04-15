@@ -13,6 +13,7 @@ const updateStickyTheads = mw.util.debounce(
     () => {
         if ( lastStickyThead !== null ) {
             lastStickyThead.classList.remove( STICKY_THEAD_CLASS );
+            lastStickyThead = null;
         }
 
         tables.some( ( { table, thead } ) => {

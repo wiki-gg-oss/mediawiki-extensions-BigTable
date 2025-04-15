@@ -1,3 +1,4 @@
+@import 'mediawiki.skin.variables.less';
 @import './variables.less';
 
 .ext-bigtable-wrapper {
@@ -11,10 +12,13 @@
 
     .ext-bigtable-sticky-thead {
     	box-shadow: 0 9px 13px -5px #0004;
-    	outline: 1px solid var(--wiki-content-border-color);
     	position: relative;
     	transform: translateY(calc(var(--table-header-offset) + var(--wikigg-header-height)));
     	z-index: 1;
+
+		> th {
+			outline: 1px solid @border-color-base;
+		}
     }
     
     tr:hover,

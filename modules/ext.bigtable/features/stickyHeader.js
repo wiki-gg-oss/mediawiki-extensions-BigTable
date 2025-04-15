@@ -9,7 +9,19 @@ const tables = [];
 let lastStickyTheadRows = [];
 
 
-const updateStickyTheads = mw.util.debounce(
+const animationFrameDebounce = fn => {
+    let rafId = null;
+    return ( ...args ) => {
+        if ( rafId !== null ) {
+            cancelAnimationFrame( rafId );
+        }
+
+        rafId = requestAnimationFrame( () => fn( ...args ) );
+    };
+};
+
+
+const updateStickyTheads = animationFrameDebounce(
     () => {
         if ( lastStickyTheadRows !== null ) {
             for ( const row of lastStickyTheadRows ) {
@@ -37,8 +49,7 @@ const updateStickyTheads = mw.util.debounce(
                 }
             }
         } );
-    },
-    5
+    }
 );
 
 

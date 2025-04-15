@@ -6,25 +6,33 @@ const
 
 
 const tables = [];
-let lastStickyThead = null;
+let lastStickyTheadRows = [];
 
 
 const updateStickyTheads = mw.util.debounce(
     () => {
-        if ( lastStickyThead !== null ) {
-            lastStickyThead.classList.remove( STICKY_THEAD_CLASS );
-            lastStickyThead = null;
+        if ( lastStickyTheadRows !== null ) {
+            for ( const row of lastStickyTheadRows ) {
+                row.classList.remove( STICKY_THEAD_CLASS );
+            }
+            lastStickyTheadRows = null;
         }
 
-        tables.some( ( { table, thead } ) => {
-            let bounds = table.getBoundingClientRect(),
+        tables.some( ( { table, stickyRows } ) => {
+            const bounds = table.getBoundingClientRect(),
                 tableBottom = bounds.top + bounds.height;
+
             if ( bounds.top <= 0 && tableBottom >= 0 ) {
-                var theadBounds = thead.getBoundingClientRect();
-                if ( tableBottom - theadBounds.height * 3 >= 0 ) {
-                    thead.style.setProperty( '--table-header-offset', `${0 - theadBounds.top - 1}px` );
-                    thead.classList.add( STICKY_THEAD_CLASS );
-                    lastStickyThead = thead;
+                const firstRowBounds = stickyRows[ 0 ].getBoundingClientRect(),
+                    headerOffset = `${0 - firstRowBounds.top - 1}px`;
+
+                if ( tableBottom - firstRowBounds.height * 3 >= 0 ) {
+                    for ( const row of stickyRows ) {
+                        row.style.setProperty( '--table-header-offset', headerOffset );
+                        row.classList.add( STICKY_THEAD_CLASS );
+                    }
+
+                    lastStickyTheadRows = stickyRows;
                     return true;
                 }
             }
@@ -38,6 +46,10 @@ module.exports = {
     setup() {},
 
 
+    /**
+     * @param {HTMLElement} wrapperElement
+     * @param {HTMLTableElement} tableElement
+     */
     init( wrapperElement, tableElement ) {
         // skip if the table contains the exclusion class or doesn't have enough rows, unless it has the force class
         if (
@@ -47,19 +59,32 @@ module.exports = {
             return;
         }
 
+        let stickyRows = null;
+
         if ( tableElement.tHead ) {
+            stickyRows = [ tableElement.tHead ];
+        } else {
+            stickyRows = [];
+            for ( const row of tableElement.rows ) {
+                let hasOnlyTh = true;
+                for ( const child of row.children ) {
+                    if ( child.tagName !== 'TH' ) {
+                        hasOnlyTh = false;
+                        break;
+                    }
+                }
+
+                if ( hasOnlyTh ) {
+                    stickyRows.push( row );
+                }
+            }
+        }
+
+        if ( stickyRows && stickyRows.length ) {
             tables.push( {
                 table: tableElement,
-                thead: tableElement.tHead,
+                stickyRows,
             } );
-        } else {
-            const firstRow = tableElement.rows[ 0 ];
-            if ( firstRow && firstRow.querySelectorAll( ':scope > th' ).length === firstRow.children.length ) {
-                tables.push( {
-                    table: tableElement,
-                    thead: firstRow,
-                } );
-            }
         }
     },
 

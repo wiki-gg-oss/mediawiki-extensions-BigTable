@@ -1,5 +1,6 @@
 const
     STICKY_THEAD_CLASS = 'ext-bigtable-sticky-thead',
+    LAST_STICKY_THEAD_CLASS = 'ext-bigtable-sticky-thead--last',
     EXCLUSION_CLASS = 'nosticky',
     FORCE_CLASS = 'forcesticky',
     MIN_ROWS_FOR_STICKY = 6;
@@ -36,6 +37,8 @@ const updateStickyTheads = animationFrameDebounce(
                         row.style.setProperty( '--table-header-offset', headerOffset );
                         row.classList.add( STICKY_THEAD_CLASS );
                     }
+
+                    stickyRows[ stickyRows.length - 1 ].classList.add( LAST_STICKY_THEAD_CLASS );
 
                     lastStickyTheadRows = stickyRows;
                     return true;

@@ -28,7 +28,8 @@
 	"ResourceModules": {
 		"ext.bigtable": {
 			"dependencies": [
-				"jquery"
+				"jquery",
+				"mediawiki.util"
 			],
 			"packageFiles": [
 				"ext.bigtable/main.js",

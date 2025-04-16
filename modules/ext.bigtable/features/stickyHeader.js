@@ -23,22 +23,15 @@ const animationFrameDebounce = fn => {
 
 const updateStickyTheads = animationFrameDebounce(
     () => {
-        if ( lastStickyTheadRows !== null ) {
-            for ( const row of lastStickyTheadRows ) {
-                row.classList.remove( STICKY_THEAD_CLASS );
-            }
-            lastStickyTheadRows = null;
-        }
+        const previousStickyTheadRows = lastStickyTheadRows;
 
-        tables.some( ( { table, stickyRows } ) => {
+        const wasSuccess = tables.some( ( { table, stickyRows, totalTheadHeightCache } ) => {
             const bounds = table.getBoundingClientRect(),
-                tableBottom = bounds.top + bounds.height;
+                tableBottom = bounds.top + bounds.height,
+                headerOffset = `${0 - bounds.top - 1}px`;
 
             if ( bounds.top <= 0 && tableBottom >= 0 ) {
-                const firstRowBounds = stickyRows[ 0 ].getBoundingClientRect(),
-                    headerOffset = `${0 - firstRowBounds.top - 1}px`;
-
-                if ( tableBottom - firstRowBounds.height * 3 >= 0 ) {
+                if ( tableBottom - totalTheadHeightCache * 3 >= 0 ) {
                     for ( const row of stickyRows ) {
                         row.style.setProperty( '--table-header-offset', headerOffset );
                         row.classList.add( STICKY_THEAD_CLASS );
@@ -49,6 +42,16 @@ const updateStickyTheads = animationFrameDebounce(
                 }
             }
         } );
+
+        if ( previousStickyTheadRows !== null && ( lastStickyTheadRows !== previousStickyTheadRows || !wasSuccess ) ) {
+            for ( const row of lastStickyTheadRows ) {
+                row.classList.remove( STICKY_THEAD_CLASS );
+            }
+
+            if ( !wasSuccess ) {
+                lastStickyTheadRows = null;
+            }
+        }
     }
 );
 
@@ -70,10 +73,12 @@ module.exports = {
             return;
         }
 
-        let stickyRows = null;
+        let stickyRows = null,
+            totalTheadHeightCache = 0;
 
         if ( tableElement.tHead ) {
             stickyRows = [ tableElement.tHead ];
+            totalTheadHeightCache += tableElement.tHead.height;
         } else {
             stickyRows = [];
             for ( const row of tableElement.rows ) {
@@ -87,6 +92,7 @@ module.exports = {
 
                 if ( hasOnlyTh ) {
                     stickyRows.push( row );
+                    totalTheadHeightCache += row.getBoundingClientRect().height;
                 }
             }
         }
@@ -95,6 +101,7 @@ module.exports = {
             tables.push( {
                 table: tableElement,
                 stickyRows,
+                totalTheadHeightCache,
             } );
         }
     },

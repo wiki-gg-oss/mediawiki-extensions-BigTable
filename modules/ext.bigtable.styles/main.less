@@ -2,13 +2,12 @@
 @import './variables.less';
 
 .ext-bigtable-wrapper {
-	position:relative;
-	overflow-x:auto;
+	position: relative;
+	margin-top: 1em;
 
-    > table.bigtable {
-    	display: table;
-    	white-space: unset;
-    }
+	> .ext-bigtable-wrapper__inner {
+		overflow-x: auto;
+	}
 
     .ext-bigtable-sticky-thead {
     	position: relative;
@@ -38,4 +37,13 @@
     .ext-bigtable-cell-hovered {
         background-image:var(--bigtable-hover-background);
     }
+}
+
+.ext-bigtable-wrapper__inner > table.bigtable {
+	display: table;
+	white-space: unset;
+
+	&.wikitable {
+		margin-top: 0;
+	}
 }

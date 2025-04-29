@@ -36,11 +36,18 @@ class TableTransformPipelineStage extends ContentDOMTransformStage {
 
             $hasBigTable = true;
 
-            $wrapperElement = $dom->createElement( 'div' );
-            $wrapperElement->setAttribute( 'class', 'ext-bigtable-wrapper' );
-            $wrapperElement->setAttribute( 'data-mw-bigtable', 'true' );
-            $tableElement->replaceWith( $wrapperElement );
-            $wrapperElement->append( $tableElement );
+            $outerWrapElement = $dom->createElement( 'div' );
+            $outerWrapElement->setAttribute( 'class', 'ext-bigtable-wrapper' );
+            $outerWrapElement->setAttribute( 'data-mw-bigtable', 'true' );
+
+            $innerWrapElement = $dom->createElement( 'div' );
+            $innerWrapElement->setAttribute( 'class', 'ext-bigtable-wrapper__inner' );
+            $innerWrapElement->setAttribute( 'data-mw-bigtable', 'true' );
+            $outerWrapElement->append( $innerWrapElement );
+
+            // Move the table into the outer wrapper
+            $tableElement->replaceWith( $outerWrapElement );
+            $outerWrapElement->append( $tableElement );
         }
 
         if ( $hasBigTable ) {

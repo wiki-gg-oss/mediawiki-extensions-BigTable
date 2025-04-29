@@ -1,0 +1,23 @@
+.ext-bigtable-sticky-thead {
+    position: relative;
+    transform: translateY(calc(var(--table-header-offset) + var(--wikigg-header-height)));
+    z-index: 1;
+	will-change: transform;
+
+	// We can't use borders due to border-collapse, nor outlines cause a) inner lines will be missing b) outlines
+	// will not stack between cells.
+	> th {
+		// outline: 1px solid @border-color-base;
+		// But we can fake it with a shadow:
+		--border-shadow: 
+			-1px 0px 0px 0px @border-color-base,
+			1px 0px 0px 0px @border-color-base,
+			0px -1px 0px 0px @border-color-base,
+			0px 1px 0px 0px @border-color-base;
+		box-shadow: var( --border-shadow );
+	}
+
+	&--last {
+		box-shadow: 0 4px 2px -2px rgba( 0, 0, 0, 0.2 );
+	}
+}

@@ -1,10 +1,10 @@
-.bigtable {
-    &,
-    html.view-light & {
-    	--bigtable-hover-background: ~"linear-gradient(rgba(var(--wiki-content-dynamic-color--rgb, 0,0,0), 0.1), rgba(var(--wiki-content-dynamic-color--rgb, 0,0,0), 0.1))";
-    }
+html,
+html.view-light {
+    --bigtable-scroll-overlay-color: color-mix( in srgb, @box-shadow-color-base, transparent 60% );
+    --bigtable-hover-background: ~"linear-gradient(rgba(var(--wiki-content-dynamic-color--rgb, 0,0,0), 0.1), rgba(var(--wiki-content-dynamic-color--rgb, 0,0,0), 0.1))";
+}
 
-    html.view-dark & {
-        --bigtable-hover-background: ~"linear-gradient(rgba(var(--wiki-content-dynamic-color--rgb, 255,255,255), 0.1), rgba(var(--wiki-content-dynamic-color--rgb, 255,255,255), 0.1))";
-    }
+html.view-dark {
+    --bigtable-scroll-overlay-color: color-mix( in srgb, @box-shadow-color-base, transparent 30% );
+    --bigtable-hover-background: ~"linear-gradient(rgba(var(--wiki-content-dynamic-color--rgb, 255,255,255), 0.1), rgba(var(--wiki-content-dynamic-color--rgb, 255,255,255), 0.1))";
 }

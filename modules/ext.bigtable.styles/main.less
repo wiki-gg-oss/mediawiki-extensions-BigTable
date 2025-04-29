@@ -32,11 +32,6 @@
 			box-shadow: 0 4px 2px -2px rgba( 0, 0, 0, 0.2 );
 		}
     }
-    
-    tr:hover,
-    .ext-bigtable-cell-hovered {
-        background-image:var(--bigtable-hover-background);
-    }
 }
 
 .ext-bigtable-wrapper__inner > table.bigtable {
@@ -46,4 +41,10 @@
 	&.wikitable {
 		margin-top: 0;
 	}
+    
+    .ext-bigtable-cell-hovered,
+    > tr:hover,
+	> tbody > tr:hover {
+        background-image: var( --bigtable-hover-background );
+    }
 }

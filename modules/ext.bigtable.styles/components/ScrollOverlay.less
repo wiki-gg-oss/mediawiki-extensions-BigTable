@@ -8,6 +8,8 @@
         box-shadow: 0 0 1.25em 0.15em rgba( 0, 0, 0, 0.4 );
         clip-path: inset( 0 -2em 0 0 );
         pointer-events: none;
+        opacity: 0;
+        transition: opacity .15s;
     }
 
     &::before {
@@ -20,4 +22,12 @@
         right: 0;
         clip-path: inset( 0 0 0 -2em );
     }
+}
+
+.ext-bigtable-wrapper--scrollable-left::before {
+    opacity: 1;
+}
+
+.ext-bigtable-wrapper--scrollable-right::after {
+    opacity: 1;
 }

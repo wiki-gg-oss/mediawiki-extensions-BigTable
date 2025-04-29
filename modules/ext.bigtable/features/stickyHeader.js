@@ -117,11 +117,7 @@ module.exports = {
 
         updateStickyTheads();
 
-        window.addEventListener( 'scroll', updateStickyTheads, {
-            passive: true
-        } );
-        window.addEventListener( 'resize', updateStickyTheads, {
-            passive: true
-        } );
+        window.addEventListener( 'scroll', updateStickyTheads, { passive: true } );
+        window.addEventListener( 'resize', updateStickyTheads, { passive: true } );
     },
 };

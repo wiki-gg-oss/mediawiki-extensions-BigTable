@@ -34,6 +34,7 @@
 			"packageFiles": [
 				"ext.bigtable/main.js",
 				"ext.bigtable/features/columnHover.js",
+				"ext.bigtable/features/scrollOverlay.js",
 				"ext.bigtable/features/stickyHeader.js"
 			]
 		},

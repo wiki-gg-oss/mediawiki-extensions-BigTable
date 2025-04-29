@@ -1,0 +1,23 @@
+.ext-bigtable-wrapper {
+    &::before,
+    &::after {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        z-index: 2;
+        box-shadow: 0 0 1.25em 0.15em rgba( 0, 0, 0, 0.4 );
+        clip-path: inset( 0 -2em 0 0 );
+        pointer-events: none;
+    }
+
+    &::before {
+        content: '';
+        left: 0;
+    }
+
+    &::after {
+        content: '';
+        right: 0;
+        clip-path: inset( 0 0 0 -2em );
+    }
+}

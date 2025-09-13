@@ -1,6 +1,7 @@
 const
     HOVER_CLASS = 'ext-bigtable-cell-hovered',
-    EXCLUSION_CLASS = 'nohover';
+    EXCLUSION_CLASS = 'nohover',
+    MIN_ROW_COUNT = 8;
 
 
 let hovered = null;
@@ -51,8 +52,12 @@ module.exports = {
     setup() {},
 
 
+    /**
+     * @param {HTMLElement} wrapperElement
+     * @param {HTMLTableElement} tableElement
+     */
     init( wrapperElement, tableElement ) {
-        if ( tableElement.classList.contains( EXCLUSION_CLASS ) ) {
+        if ( tableElement.classList.contains( EXCLUSION_CLASS ) || tableElement.rows.length < MIN_ROW_COUNT ) {
             return;
         }
 

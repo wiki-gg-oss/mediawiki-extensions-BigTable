@@ -96,6 +96,8 @@ module.exports = {
                 if ( hasOnlyTh ) {
                     stickyRows.push( row );
                     totalTheadHeightCache += row.getBoundingClientRect().height;
+                } else {
+                    break;
                 }
             }
         }

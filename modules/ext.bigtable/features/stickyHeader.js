@@ -24,6 +24,10 @@ const animationFrameDebounce = fn => {
 
 const updateStickyTheads = animationFrameDebounce(
     () => {
+        // TODO: for performance and multi-thead support, we absolutely want everything here to be orchestrated by an
+        // IntersectionObserver, and then just pile on theads as they scroll into view (and disable when the table
+        // scrolls out)
+
         const previousStickyTheadRows = lastStickyTheadRows;
 
         const wasSuccess = tables.some( ( { table, stickyRows, totalTheadHeightCache } ) => {
@@ -84,6 +88,32 @@ module.exports = {
             totalTheadHeightCache += tableElement.tHead.height;
         } else {
             stickyRows = [];
+
+            // Control var; set this to true when the first, contiguous TH block ends - then if we find another all TH
+            // row and this var is true, we can interrupt the setup entirely as we do not support that scenario at the
+            // moment. This flag does not accurately reflect whether the block has actually been found after the loop
+            // ends (for example, there are no TD rows or the TH row is the last row in the table).
+            // Scenario visualiser:
+            //  TR
+            //    TH TH TH
+            //  TR
+            //    TD TD TD
+            //  TR
+            //    TH TH TH
+            //  TR
+            //    TD TD TD
+            let foundFirstThBlock = false;
+
+            // Note, we also do not support the following scenario with a "late" TH block:
+            //  TR
+            //    TD TD TD
+            //  TR
+            //    TH TH TH
+            //  TR
+            //    TD TD TD
+
+            // TODO: for Rail or Mr Pie
+
             for ( const row of tableElement.rows ) {
                 let hasOnlyTh = true;
                 for ( const child of row.children ) {
@@ -93,11 +123,16 @@ module.exports = {
                     }
                 }
 
+                // Flag tripped due to multiple TH blocks, do not activate the sticky header or bad things happen
+                if ( hasOnlyTh && foundFirstThBlock ) {
+                    return;
+                }
+
                 if ( hasOnlyTh ) {
                     stickyRows.push( row );
                     totalTheadHeightCache += row.getBoundingClientRect().height;
                 } else {
-                    break;
+                    foundFirstThBlock = true;
                 }
             }
         }

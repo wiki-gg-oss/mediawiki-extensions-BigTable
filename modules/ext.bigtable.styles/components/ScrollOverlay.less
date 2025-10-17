@@ -31,3 +31,11 @@
 .ext-bigtable-wrapper--scrollable-right::after {
     opacity: 1;
 }
+
+// don't show the scroll overlay when a table is collapsed
+.ext-bigtable-wrapper:has(.bigtable.mw-collapsed) {
+    &::before,
+    &::after {
+    	opacity:0;
+    }
+}

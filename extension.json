@@ -8,7 +8,7 @@
 	],
 	"url": "https://wiki.gg",
 	"descriptionmsg": "extbigtable-desc",
-	"license-name": "Proprietary",
+	"license-name": "GPL-3.0-or-later",
 	"type": "parserhook",
 	"requires": {
 		"MediaWiki": ">= 1.43.0",

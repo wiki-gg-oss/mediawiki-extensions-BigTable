@@ -4,31 +4,31 @@ const
     MIN_ROW_COUNT = 8;
 
 
-let hovered = null;
+function clearHoverFromBody() {
+    for ( const cellElement of document.body.querySelectorAll( `td.${HOVER_CLASS}` ) ) {
+        cellElement.classList.remove( HOVER_CLASS );
+    }
+}
 
 
 const updateColumnHover = mw.util.debounce(
     ( tableElement, eventTarget ) => {
-        // Clear all hover states
-        if ( eventTarget === null ) {
-            for ( const cellElement of tableElement.querySelectorAll( `td.${HOVER_CLASS}` ) ) {
-                cellElement.classList.remove( HOVER_CLASS );
-            }
-        }
-
-        if ( !eventTarget || eventTarget.nodeName !== 'TD' || eventTarget.classList.contains( HOVER_CLASS ) ) {
+        // Event target is gone due to the mouse leaving an eligible column; clear hover state and bail
+        if ( !eventTarget ) {
+            clearHoverFromBody();
             return;
         }
 
-        const column = eventTarget.cellIndex;
-
-        if ( hovered ) {
-            for ( const cellElement of hovered ) {
-                cellElement.classList.remove( HOVER_CLASS );
-            }
+        // Bail on non-body cells or if the event target is already in our hover state
+        if ( eventTarget.nodeName !== 'TD' || eventTarget.classList.contains( HOVER_CLASS ) ) {
+            return;
         }
 
-        hovered = Array.prototype.map.call( tableElement.rows, row => {
+        clearHoverFromBody();
+
+        const column = eventTarget.cellIndex;
+
+        let hovered = Array.prototype.map.call( tableElement.rows, row => {
             let index = column,
                 cellElement = null;
             while ( !cellElement && index >= 0 ) {

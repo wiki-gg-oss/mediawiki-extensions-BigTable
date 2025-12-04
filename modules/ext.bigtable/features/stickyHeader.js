@@ -3,30 +3,48 @@ const
     LAST_STICKY_THEAD_CLASS = 'ext-bigtable-sticky-thead--last',
     EXCLUSION_CLASS = 'nosticky',
     FORCE_CLASS = 'forcesticky',
-    MIN_ROWS_FOR_STICKY = 6;
+    MIN_ROWS_FOR_STICKY = 6,
+    CSS_CUSTOM_PROPERTY_OFFSET = '--table-header-offset';
 
 
 const tables = [];
+let updateQueue = [];
 let lastStickyTheadRows = [];
 
 
-const animationFrameDebounce = fn => {
+const dedupeAnimationFrames = fn => {
     let rafId = null;
     return ( ...args ) => {
-        if ( rafId !== null ) {
-            cancelAnimationFrame( rafId );
+        if ( rafId === null ) {
+            rafId = requestAnimationFrame( () => {
+                rafId = null;
+                fn( ...args );
+            } );
         }
-
-        rafId = requestAnimationFrame( () => fn( ...args ) );
     };
 };
 
 
-const updateStickyTheads = animationFrameDebounce(
+const applyDomUpdates = dedupeAnimationFrames( () => {
+    for ( const update of updateQueue ) {
+        if ( update.headerOffset === false ) {
+            update.row.classList.remove( STICKY_THEAD_CLASS );
+            update.row.style.removeProperty( CSS_CUSTOM_PROPERTY_OFFSET );
+        } else {
+            update.row.classList.add( STICKY_THEAD_CLASS );
+            update.row.style.setProperty( CSS_CUSTOM_PROPERTY_OFFSET, update.headerOffset );
+        }
+    }
+} );
+
+
+const updateStickyTheads = mw.util.debounce(
     () => {
         // TODO: for performance and multi-thead support, we absolutely want everything here to be orchestrated by an
         // IntersectionObserver, and then just pile on theads as they scroll into view (and disable when the table
         // scrolls out)
+
+        updateQueue = [];
 
         const previousStickyTheadRows = lastStickyTheadRows;
 
@@ -38,8 +56,10 @@ const updateStickyTheads = animationFrameDebounce(
             if ( bounds.top <= 0 && tableBottom >= 0 ) {
                 if ( tableBottom - totalTheadHeightCache * 3 >= 0 ) {
                     for ( const row of stickyRows ) {
-                        row.style.setProperty( '--table-header-offset', headerOffset );
-                        row.classList.add( STICKY_THEAD_CLASS );
+                        updateQueue.push( {
+                            row,
+                            headerOffset,
+                        } );
                     }
 
                     stickyRows[ stickyRows.length - 1 ].classList.add( LAST_STICKY_THEAD_CLASS );
@@ -52,14 +72,22 @@ const updateStickyTheads = animationFrameDebounce(
 
         if ( previousStickyTheadRows !== null && ( lastStickyTheadRows !== previousStickyTheadRows || !wasSuccess ) ) {
             for ( const row of lastStickyTheadRows ) {
-                row.classList.remove( STICKY_THEAD_CLASS );
+                updateQueue.push( {
+                    row,
+                    headerOffset: false,
+                } );
             }
 
             if ( !wasSuccess ) {
                 lastStickyTheadRows = null;
             }
         }
-    }
+
+        if ( updateQueue.length ) {
+            applyDomUpdates();
+        }
+    },
+    1
 );
 
 
